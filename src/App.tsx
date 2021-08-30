@@ -1,7 +1,7 @@
 import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet } from '@ionic/react';
+import { IonApp, IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import Home from './pages/Home';
+import radarIcon from "./icons/radar.svg"
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -21,19 +21,35 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import { airplaneOutline } from 'ionicons/icons';
+import ASPContent from './components/ASP/ASPContent';
+import AUContent from './components/AU/AUContent';
 
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-      <IonRouterOutlet>
-        <Route exact path="/home">
-          <Home />
-        </Route>
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
-      </IonRouterOutlet>
-    </IonReactRouter>
+        <IonTabs>
+          <IonRouterOutlet>
+            <Route exact path="/AU">
+              <AUContent/>
+            </Route>
+            <Route exact path="/ASP">
+              <ASPContent onPreviousPhase={() => null} onNextPhase={() => null}/>
+            </Route>
+            <Redirect exact from="/" to="/AU"/>
+          </IonRouterOutlet>
+          <IonTabBar slot="bottom" >
+            <IonTabButton tab="AU" href="/AU">
+              <IonLabel>AU</IonLabel>
+              <IonIcon icon={airplaneOutline}></IonIcon>
+            </IonTabButton>
+            <IonTabButton tab="ASP" href="/ASP">
+              <IonLabel>ASP</IonLabel>
+              <IonIcon icon={radarIcon}></IonIcon>
+            </IonTabButton>
+          </IonTabBar>
+        </IonTabs>
+      </IonReactRouter>
   </IonApp>
 );
 

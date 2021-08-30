@@ -4,58 +4,72 @@ import { stringify } from 'querystring';
 import type { RootState } from '../app/store';
 
 export interface ITrajectoryPoint4D {
-    altimerterSetting: number,
-    level: number
-    position: { latitude: number, longitude: number}
-    predictedAirspeed: number,
-    predictedGroundspeed: number
-    absoluteTime: string
+  altimerterSetting: number,
+  level: number
+  position: { latitude: number, longitude: number }
+  predictedAirspeed: number,
+  predictedGroundspeed: number
+  absoluteTime: string
 }
 
 export interface IRouteTrajectory {
-    routeTrajectoryElements: Array<ITrajectoryPoint4D>
+  routeTrajectoryElements: Array<ITrajectoryPoint4D>
 }
 
 export interface ITrajectoryGroup {
-    desired: IRouteTrajectory
-    agreed: IRouteTrajectory
-    filed: IRouteTrajectory
-    negotiating: IRouteTrajectory
+  desired: IRouteTrajectory
+  agreed: IRouteTrajectory
+  filed: IRouteTrajectory
+  negotiating: IRouteTrajectory
 }
 
 // Define a type for the slice state
 export interface IFlightData {
   originator: string,
   submitter: string,
+  operator?: string,
+  departure?: string,
+  destination?: string,
   routeTrajectoryGroup: ITrajectoryGroup
 }
 
 export interface IWaypointActionPayload {
-    trajectoryCollection:string, 
-    sequence: number
+  trajectoryCollection: string,
+  sequence: number
 }
 
 export interface IWaypointActionPayloadNumber extends IWaypointActionPayload {
-    value: number
+  value: number
 }
+
+export const getNewWaypoint = (): ITrajectoryPoint4D => {
+  return {
+    altimerterSetting: 1013.25,
+    level: 100,
+    position: { latitude: 0, longitude: 0 },
+    predictedAirspeed: 100,
+    predictedGroundspeed: 100,
+    absoluteTime: "00:00:00"
+  }
+};
 
 // Define the initial state using that type
 const initialState = {
   originator: "",
   submitter: "",
   routeTrajectoryGroup: {
-      "desired": {
-          routeTrajectoryElements: []
-      },
-      "filed": {
-          routeTrajectoryElements: []
-      },
-      "agreed": {
-          routeTrajectoryElements: []
-      },
-      "negotiating": {
-          routeTrajectoryElements: []
-      }
+    "desired": {
+      routeTrajectoryElements: []
+    },
+    "filed": {
+      routeTrajectoryElements: []
+    },
+    "agreed": {
+      routeTrajectoryElements: []
+    },
+    "negotiating": {
+      routeTrajectoryElements: []
+    }
   }
 } as IFlightData;
 
@@ -63,41 +77,46 @@ export const flightDataSlice = createSlice({
   name: 'flightData',
   initialState,
   reducers: {
-      setOriginator: (state, action:PayloadAction<string>) => {
-          state.originator = action.payload;
-      },
-      setSubmitter: (state, action: PayloadAction<string>) => {
-          state.submitter = action.payload;
-      },
-      addDesiredWaypoint: (state, action: PayloadAction<{trajectoryIndex: string, waypoint: ITrajectoryPoint4D}>) => {
-          console.log(action.payload.trajectoryIndex);
-          state.routeTrajectoryGroup.desired.routeTrajectoryElements
-            .push(action.payload.waypoint);
-      },
-      setWaypointAltimeterSetting: (state, action: PayloadAction<IWaypointActionPayloadNumber>) => {
-        //   const key: keyof typeof state.routeTrajectoryGroup = action.payload.trajectoryCollection;
-          if (action.payload.trajectoryCollection in state.routeTrajectoryGroup)
-          {
-              const keyStr = action.payload.trajectoryCollection;
-              const i = action.payload.sequence;
-              state.routeTrajectoryGroup[keyStr as keyof typeof state.routeTrajectoryGroup]
-                .routeTrajectoryElements[i].altimerterSetting = action.payload.value;
-          }
-      },
-      setWaypointLevel: (state, action: PayloadAction<IWaypointActionPayloadNumber>) => {
-          const payload = action.payload;
-          state.routeTrajectoryGroup[payload.trajectoryCollection as keyof typeof state.routeTrajectoryGroup]
-            .routeTrajectoryElements[payload.sequence].level = payload.value;
+    setOriginator: (state, action: PayloadAction<string>) => {
+      state.originator = action.payload;
+    },
+    setSubmitter: (state, action: PayloadAction<string>) => {
+      state.submitter = action.payload;
+    },
+    addNew4DWaypoint: (state, action: PayloadAction<string>) => {
+      if (action.payload in state.routeTrajectoryGroup) {
+        state.routeTrajectoryGroup[action.payload as keyof typeof state.routeTrajectoryGroup]
+          .routeTrajectoryElements.push(getNewWaypoint());
       }
+    },
+    addDesiredWaypoint: (state, action: PayloadAction<{ trajectoryIndex: string, waypoint: ITrajectoryPoint4D }>) => {
+      console.log(action.payload.trajectoryIndex);
+      state.routeTrajectoryGroup.desired.routeTrajectoryElements
+        .push(action.payload.waypoint);
+    },
+    setWaypointAltimeterSetting: (state, action: PayloadAction<IWaypointActionPayloadNumber>) => {
+      if (action.payload.trajectoryCollection in state.routeTrajectoryGroup) {
+        const keyStr = action.payload.trajectoryCollection;
+        const i = action.payload.sequence;
+        state.routeTrajectoryGroup[keyStr as keyof typeof state.routeTrajectoryGroup]
+          .routeTrajectoryElements[i].altimerterSetting = action.payload.value;
+      }
+    },
+    setWaypointLevel: (state, action: PayloadAction<IWaypointActionPayloadNumber>) => {
+      const payload = action.payload;
+      state.routeTrajectoryGroup[payload.trajectoryCollection as keyof typeof state.routeTrajectoryGroup]
+        .routeTrajectoryElements[payload.sequence].level = payload.value;
+    }
   },
 })
 
-export const { 
-    setOriginator, 
-    setSubmitter, 
-    addDesiredWaypoint,
-    setWaypointAltimeterSetting,
-    setWaypointLevel
+export const {
+  setOriginator,
+  setSubmitter,
+  addDesiredWaypoint,
+  addNew4DWaypoint,
+  setWaypointAltimeterSetting,
+  setWaypointLevel
 } = flightDataSlice.actions;
 
 

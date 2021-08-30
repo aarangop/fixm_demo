@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import flightDataReducer from '../features/flightData'
+import flightplanProcessReducer from "../features/flightplanProcess";
 
 const store = configureStore({
   reducer: {
-    flightData: flightDataReducer
+    flightData: flightDataReducer,
+    flightplanProcess: flightplanProcessReducer
   },
 })
 

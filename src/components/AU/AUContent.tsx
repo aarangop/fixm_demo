@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { nextPlanningPhase, previousPlanningPhase } from "../../features/flightplanProcess";
 import BasePage from "../../pages/BasePage"
 import BasePage2 from "../../pages/BasePage2";
+import BasePage3 from "../../pages/BasePage3";
 import AUPreTactic from "./AUPreTactic";
 import AUStrategic from "./AUStrategic";
 import AUTactic from "./AUTactic";

@@ -14,11 +14,12 @@ const ASPStrategic: React.FC = () => {
 
   const onTrajectoryAccepted = (trajectory: IFlightData) => {
     dispatch(setAgreedTrajectory(trajectory.routeTrajectoryGroup.desired))
-    // dispatch(setSelectedTrajectory())
+    console.log("%c Desired trajectory accepted by ASP!", 'background: #69bb7b; color: #005a00');
+    console.log(trajectory.routeTrajectoryGroup.desired)
   }
 
   const onTrajectoryRejected = () => {
-    
+    console.log("%c Desired trajectory rejected by ASP!", 'background: #ed576b; color: #222428');
   }
 
   const createGufi = (): string => {
@@ -39,6 +40,7 @@ const ASPStrategic: React.FC = () => {
       departureEnabled={false}
       arrivalEnabled={false}
       departureDateEnabled={false}
+      destinationEnabled={false}
       arrivalDateEnabled={false}
       trajectoryVisible={true}
       desiredTrajectoryEditable={false}

@@ -69,8 +69,6 @@ const FlightDataInput: React.FC<IFlightDataInputProps> = (props) => {
 
   const onTrajectoryActionButtonClicked = () => present();
 
-  const savedTrajectories = useAppSelector((state: RootState) => state.defaultTrajectories)
-
   return (
     <div className="flightDataInputContent">
       <IonGrid>
@@ -106,7 +104,7 @@ const FlightDataInput: React.FC<IFlightDataInputProps> = (props) => {
                   <IonInput
                     onIonChange={(e) => setTempFltData({ ...tempFltData, originator: e.detail.value! })}
                     disabled={!props.originatorEnabled}
-                    value={tempFltData.originator}
+                    value={props.originatorEnabled ? tempFltData.originator : flightData.originator}
                   >
                   </IonInput>
                 </IonItem>
@@ -117,7 +115,7 @@ const FlightDataInput: React.FC<IFlightDataInputProps> = (props) => {
                   <IonInput
                     onIonChange={(e) => setTempFltData({ ...tempFltData, operator: e.detail.value! })}
                     disabled={!props.operatorEnabled}
-                    value={tempFltData.operator}
+                    value={props.operatorEnabled? tempFltData.operator : flightData.operator}
                   ></IonInput>
                 </IonItem>
               </IonCol>
@@ -130,7 +128,7 @@ const FlightDataInput: React.FC<IFlightDataInputProps> = (props) => {
                     onIonChange={(e) => setTempFltData({ ...tempFltData, departure: e.detail.value! })}
                     disabled={!props.departureEnabled}
                     placeholder="EDVE"
-                    value={tempFltData.departure}
+                    value={ props.departureDateEnabled ? tempFltData.departure : flightData.departure}
                   ></IonInput>
                 </IonItem>
               </IonCol>
@@ -140,7 +138,7 @@ const FlightDataInput: React.FC<IFlightDataInputProps> = (props) => {
                   <IonInput
                     onIonChange={(e) => setTempFltData({ ...tempFltData, destination: e.detail.value! })}
                     disabled={!props.destinationEnabled}
-                    value={tempFltData.destination}
+                    value={props.destinationEnabled ? tempFltData.destination : flightData.destination}
                     placeholder="EDVE"
                   ></IonInput>
                 </IonItem>
@@ -158,7 +156,7 @@ const FlightDataInput: React.FC<IFlightDataInputProps> = (props) => {
                     onIonChange={(e) => setTempFltData({ ...tempFltData, estimatedOffBlockTime: e.detail.value! })}
                     disabled={!props.departureDateEnabled}
                     placeholder="dd.mm.yyyy - HH:mm:ss"
-                    value={tempFltData.estimatedOffBlockTime}
+                    value={ props.departureDateEnabled ? tempFltData.estimatedOffBlockTime : flightData.estimatedOffBlockTime}
                   ></IonInput>
                 </IonItem>
               </IonCol>
@@ -169,7 +167,7 @@ const FlightDataInput: React.FC<IFlightDataInputProps> = (props) => {
                     onIonChange={(e) => setTempFltData({ ...tempFltData, estimatedArrivalBlockTime: e.detail.value! })}
                     disabled={!props.arrivalDateEnabled}
                     placeholder="dd.mm.yyyy - HH:mm:ss"
-                    value={tempFltData.estimatedArrivalBlockTime}
+                    value={ props.arrivalDateEnabled ? tempFltData.estimatedArrivalBlockTime : flightData.estimatedArrivalBlockTime}
                   ></IonInput>
                 </IonItem>
               </IonCol>

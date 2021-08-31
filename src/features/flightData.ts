@@ -60,7 +60,6 @@ export const getNewWaypoint = (): ITrajectoryPoint4D => {
 const initialState = {
   gufi: "",
   originator: "",
-  submitter: "",
   routeTrajectoryGroup: {
     "desired": {
       routeTrajectoryElements: []

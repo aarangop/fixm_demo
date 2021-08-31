@@ -1,3 +1,4 @@
+import { IonContent } from "@ionic/react";
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
@@ -9,7 +10,9 @@ const FixmFlightData: React.FC = () => {
   const fixmCode = useAppSelector((state: RootState) => state.flightData)
 
   return (
-    <pre>{JSON.stringify(fixmCode, null, 2)}</pre>
+    <IonContent>
+      <pre>{JSON.stringify(fixmCode, null, 2)}</pre>
+    </IonContent>
   );
 };
 

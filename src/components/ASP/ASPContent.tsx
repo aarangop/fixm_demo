@@ -2,6 +2,7 @@ import React from "react";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { nextPlanningPhase, previousPlanningPhase } from "../../features/flightplanProcess";
 import BasePage2 from "../../pages/BasePage2";
+import BasePage3 from "../../pages/BasePage3";
 import ASPPreTactic from "./ASPPreTactic";
 import ASPStrategic from "./ASPStrategic";
 

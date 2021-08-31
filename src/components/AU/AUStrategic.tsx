@@ -23,7 +23,8 @@ const AUStrategic: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const onSubmit = (tempFltData: IFlightData) => {
-    dispatch(setBasicFltData({...tempFltData}))
+    dispatch(setBasicFltData({...tempFltData}));
+    console.log("%c Flight plan submitted", 'background: #69bb7b; color: #005a00');
   }
 
   return (

@@ -1,13 +1,4 @@
 .contentContainer {
     padding: 10px;
-    // display:flex;
-    // flex-direction:column;
-}
-
-.header {
-    // flex: 0 1 auto;
-}
-
-.content {
-    // flex: 1 0 auto;
+    overflow-y: scroll;
 }

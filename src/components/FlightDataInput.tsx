@@ -1,20 +1,48 @@
 import { IonGrid, IonRow, IonCol, IonItem, IonLabel, IonInput, IonItemDivider, IonText, IonToolbar, IonFooter, IonButton, IonContent, IonHeader, IonButtons, IonCard, IonCardHeader } from "@ionic/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useAppSelector } from "../app/hooks";
+import { IFlightData } from "../features/flightData";
 import "./FlightDataInput.scss"
 import TrajectoryCard from "./TrajectoryCard";
+import TrajectoryView from "./TrajectoryView";
 
-interface IFlightDataInputProps {
+export interface IFlightDataInputProps {
+  gufiEnabled?: boolean,
   originatorEnabled?: boolean,
-  operatorEnabled?: boolean
+  operatorEnabled?: boolean,
+  departureEnabled?: boolean,
+  destinationEnabled?: boolean,
+  arrivalEnabled?: boolean,
+  trajectoryVisible?: boolean,
+  acceptButtonEnabled?: boolean,
+  acceptButtonText?: string,
+  rejectButtonEnabled?: boolean,
+  rejectButtonText?: string,
+  onAccept?: (tempFltData: IFlightData) => void;
+  onReject?: () => void;
 }
 
-const FlightDataInput: React.FC<{ formProps?: IFlightDataInputProps }> = ({ formProps }) => {
+const defaultProps: IFlightDataInputProps = {
+  gufiEnabled: false,
+  originatorEnabled: true,
+  operatorEnabled: true,
+  departureEnabled: true,
+  destinationEnabled: true,
+  arrivalEnabled: true,
+  trajectoryVisible: false,
+  acceptButtonEnabled: true,
+  acceptButtonText: "Accept",
+  rejectButtonEnabled: true,
+  rejectButtonText: "Reject"
+}
+
+const FlightDataInput: React.FC<IFlightDataInputProps> = (props) => {
 
   const flightData = useAppSelector(state => state.flightData);
 
+  const [tempFltData, setTempFltData] = useState<IFlightData>({ ...flightData });
+
   return (
-    // <IonContent fullscreen={false} className="flightDataContent">
     <div className="flightDataInputContent">
       <IonGrid>
         <IonRow>
@@ -23,8 +51,7 @@ const FlightDataInput: React.FC<{ formProps?: IFlightDataInputProps }> = ({ form
               <IonLabel position="stacked">
                 GUFI
               </IonLabel>
-              <IonInput disabled={true}>
-                {"Not assigned"}
+              <IonInput placeholder="Not assigned" disabled={!props.gufiEnabled}>
               </IonInput>
             </IonItem>
           </IonCol>
@@ -38,15 +65,18 @@ const FlightDataInput: React.FC<{ formProps?: IFlightDataInputProps }> = ({ form
                   <IonLabel position="stacked">
                     Originator
                   </IonLabel>
-                  <IonInput disabled={formProps?.originatorEnabled}>
-                    {flightData.originator}
+                  <IonInput
+                    onIonChange={(e) => setTempFltData({ ...tempFltData, originator: e.detail.value! })}
+                    disabled={!props.originatorEnabled}>
                   </IonInput>
                 </IonItem>
               </IonCol>
               <IonCol>
                 <IonItem>
                   <IonLabel position="stacked">Operator</IonLabel>
-                  <IonInput disabled={formProps?.operatorEnabled}>{flightData.operator}</IonInput>
+                  <IonInput 
+                    onIonChange={(e) => setTempFltData({ ...tempFltData, operator: e.detail.value! })}
+                    disabled={!props.operatorEnabled}>{flightData.operator}</IonInput>
                 </IonItem>
               </IonCol>
             </IonRow>
@@ -54,13 +84,19 @@ const FlightDataInput: React.FC<{ formProps?: IFlightDataInputProps }> = ({ form
               <IonCol>
                 <IonItem>
                   <IonLabel position="stacked">Departure</IonLabel>
-                  <IonInput placeholder="EDVE">{flightData.departure}</IonInput>
+                  <IonInput 
+                  onIonChange={(e) => setTempFltData({ ...tempFltData, departure: e.detail.value! })}
+                  disabled={!props.departureEnabled}
+                    placeholder="EDVE">{flightData.departure}</IonInput>
                 </IonItem>
               </IonCol>
               <IonCol>
                 <IonItem>
                   <IonLabel position="stacked">Destination</IonLabel>
-                  <IonInput placeholder="EDVE">{flightData.destination}</IonInput>
+                  <IonInput 
+                  onIonChange={(e) => setTempFltData({ ...tempFltData, destination: e.detail.value! })}
+                  disabled={!props.destinationEnabled}
+                    placeholder="EDVE">{flightData.destination}</IonInput>
                 </IonItem>
               </IonCol>
               <IonItemDivider />
@@ -96,40 +132,57 @@ const FlightDataInput: React.FC<{ formProps?: IFlightDataInputProps }> = ({ form
                 </IonItem>
               </IonCol>
             </IonRow>
-            <IonItemDivider />
-            <IonRow>
-              <IonText><h4>4D Trajectories</h4></IonText>
-            </IonRow>
-            <IonRow>
-              <IonCol>
-                <TrajectoryCard trajectoryProps={{trajectory: "desired"}}/>
-              </IonCol>
-              <IonCol>
-                <TrajectoryCard trajectoryProps={{trajectory: "agreed"}}/>
-              </IonCol>
-              <IonCol>
-                <TrajectoryCard trajectoryProps={{trajectory: "negotiating"}}/>
-              </IonCol>
-              <IonCol>
-                <TrajectoryCard trajectoryProps={{trajectory: "ranked"}}/>
-              </IonCol>
-            </IonRow>
+            {
+              !props.trajectoryVisible ? null : (
+                <IonGrid>
+                  <IonRow>
+                    <IonText><h4>4D Trajectories</h4></IonText>
+                  </IonRow>
+                  <IonRow>
+                    <IonCol>
+                      {/* <TrajectoryView trajectory={}></TrajectoryView> */}
+                    </IonCol>
+                    <IonCol>
+                      {/* <TrajectoryCard trajectoryProps={{ trajectory: "agreed" }} /> */}
+                    </IonCol>
+                    <IonCol>
+                      {/* <TrajectoryCard trajectoryProps={{ trajectory: "negotiating" }} /> */}
+                    </IonCol>
+                    <IonCol>
+                      {/* <TrajectoryCard trajectoryProps={{ trajectory: "ranked" }} /> */}
+                    </IonCol>
+                  </IonRow>
+                </IonGrid>
+              )
+            }
+            {!props.trajectoryVisible ? null : <IonItemDivider />}
           </IonGrid>
         </IonRow>
         <IonRow>
           <IonToolbar className="flightDataActionButtons">
-            <IonButtons slot="start">
-              <IonButton color="primary" expand="block">Accept/Submit</IonButton>
-            </IonButtons>
-            <IonButtons slot="end">
-              <IonButton color="danger" expand="block">Reject</IonButton>
-            </IonButtons>
+            {
+              props.acceptButtonEnabled ? (
+                <IonButtons slot="start">
+                  <IonButton
+                    onClick={props.onAccept ? () => props.onAccept!(tempFltData) : () => null}
+                    color="primary" expand="block">
+                    {props.acceptButtonText}
+                  </IonButton>
+                </IonButtons>) : null
+            }
+            {props.rejectButtonEnabled ? (
+              <IonButtons slot="end">
+                <IonButton onClick={props.onReject ? props.onReject : () => null}
+                  color="danger" expand="block">{props.rejectButtonText}</IonButton>
+              </IonButtons>
+            ) : null}
           </IonToolbar>
         </IonRow>
       </IonGrid>
-      </div>
-    // </IonContent>
+    </div>
   );
 }
+
+FlightDataInput.defaultProps = defaultProps;
 
 export default FlightDataInput;

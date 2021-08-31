@@ -12,7 +12,7 @@ const BasePage2: React.FC<{ onNextPhase: Function, onPreviousPhase: Function }> 
   const planningPhase = useAppSelector(state => selectPlanningPhase(state));
 
   return (
-    <IonPage>
+    <IonPage className="mainContent">
       <IonHeader>
         <IonToolbar>
           <IonTitle>FIXM Demo</IonTitle>
@@ -24,7 +24,7 @@ const BasePage2: React.FC<{ onNextPhase: Function, onPreviousPhase: Function }> 
       <IonContent>
         <IonGrid>
           <IonRow>
-            <IonCol size="7">
+            <IonCol size="10">
               <IonText>Flight Plan Data</IonText>
             </IonCol>
             <IonCol>
@@ -32,7 +32,7 @@ const BasePage2: React.FC<{ onNextPhase: Function, onPreviousPhase: Function }> 
             </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol>
+            <IonCol size="8">
               {children ? children : null}
             </IonCol>
             <IonCol>

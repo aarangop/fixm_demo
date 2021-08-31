@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import flightDataReducer from '../features/flightData'
 import flightplanProcessReducer from "../features/flightplanProcess";
+import defaultTrajectoriesReducer from "../features/defaultTrajectories";
 
 const store = configureStore({
   reducer: {
     flightData: flightDataReducer,
-    flightplanProcess: flightplanProcessReducer
+    flightplanProcess: flightplanProcessReducer,
+    defaultTrajectories: defaultTrajectoriesReducer
   },
 })
 

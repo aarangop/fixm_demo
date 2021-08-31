@@ -5,6 +5,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import store from "./app/store"
 import { Provider } from "react-redux"
+import "./theme/fonts.scss"
 
 ReactDOM.render(
   <React.StrictMode>

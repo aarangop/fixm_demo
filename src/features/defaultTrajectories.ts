@@ -1,4 +1,4 @@
-import { createSlice,  } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction,  } from "@reduxjs/toolkit";
 import trajectories from "../data/flightplans/trajectories.json"
 import { ITrajectoryPoint4D } from "./flightData";
 
@@ -8,9 +8,10 @@ export interface ISavedTrajectory {
   waypoints: Array<ITrajectoryPoint4D>
 }
 
-interface ISavedTrajectories {
+export interface ISavedTrajectories {
   "selected_trajectory": ISavedTrajectory,
-  "alternative_trajectories": Array<ISavedTrajectory>
+  "alternative_trajectories": Array<ISavedTrajectory>,
+  "agreed_trajectory": Array<ISavedTrajectory>
 }
 
 const initialState = trajectories as ISavedTrajectories;
@@ -19,10 +20,14 @@ export const defaultTrajectoriesSlice = createSlice({
     name: 'flightData',
   initialState,
   reducers: {
-
+    setSelectedTrajectory: ((state, action: PayloadAction<ISavedTrajectory>) => {
+      state.selected_trajectory = action.payload;
+    })
   }
 });
 
-export const { } = defaultTrajectoriesSlice.actions; 
+export const { 
+  setSelectedTrajectory
+} = defaultTrajectoriesSlice.actions; 
 
 export default defaultTrajectoriesSlice.reducer;

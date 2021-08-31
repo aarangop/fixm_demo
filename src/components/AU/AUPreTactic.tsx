@@ -1,9 +1,14 @@
 import React from "react";
+import FlightDataInput from "../FlightDataInput";
 
 const AUPreTactic: React.FC = () => {
-    return(
-        <div>Pre-Tactical planning...</div>
-    );
+  return (
+    <FlightDataInput
+      gufiEnabled={false}
+      trajectoryVisible={true}
+      desiredTrajectoryEditable={true}
+    />
+  );
 };
 
 export default AUPreTactic;

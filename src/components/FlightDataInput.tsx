@@ -1,9 +1,12 @@
-import { IonGrid, IonRow, IonCol, IonItem, IonLabel, IonInput, IonItemDivider, IonText, IonToolbar, IonFooter, IonButton, IonContent, IonHeader, IonButtons, IonCard, IonCardHeader } from "@ionic/react";
+import { IonGrid, IonRow, IonCol, IonItem, IonLabel, IonInput, IonItemDivider, IonText, IonToolbar, IonFooter, IonButton, IonContent, IonHeader, IonButtons, IonCard, IonCardHeader, useIonModal } from "@ionic/react";
 import React, { useEffect, useState } from "react";
+import { Provider } from "react-redux";
 import { useAppSelector } from "../app/hooks";
+import store, { RootState } from "../app/store";
+import { ISavedTrajectory } from "../features/defaultTrajectories";
 import { IFlightData } from "../features/flightData";
 import "./FlightDataInput.scss"
-import TrajectoryCard from "./TrajectoryCard";
+import ModifyTrajectoryForm from "./ModifyTrajectoryForm";
 import TrajectoryView from "./TrajectoryView";
 
 export interface IFlightDataInputProps {
@@ -13,12 +16,20 @@ export interface IFlightDataInputProps {
   departureEnabled?: boolean,
   destinationEnabled?: boolean,
   arrivalEnabled?: boolean,
+  departureDateEnabled?: boolean,
+  departureTimeEnabled?: boolean,
+  arrivalDateEnabled?: boolean,
+  arrivalTimeEnabled?: boolean,
   trajectoryVisible?: boolean,
   acceptButtonEnabled?: boolean,
   acceptButtonText?: string,
   rejectButtonEnabled?: boolean,
   rejectButtonText?: string,
-  onAccept?: (tempFltData: IFlightData) => void;
+  assignGufiButtonEnabled?: boolean,
+  desiredTrajectoryEditable?: boolean,
+  agreedTrajectoryEditable?: boolean,
+  onGufiButtonClicked?: () => void,
+  onAccept?: (tempFltData: IFlightData) => void
   onReject?: () => void;
 }
 
@@ -33,14 +44,32 @@ const defaultProps: IFlightDataInputProps = {
   acceptButtonEnabled: true,
   acceptButtonText: "Accept",
   rejectButtonEnabled: true,
-  rejectButtonText: "Reject"
+  rejectButtonText: "Reject",
+  assignGufiButtonEnabled: false,
+  desiredTrajectoryEditable: false,
+  agreedTrajectoryEditable: false,
+  onGufiButtonClicked: () => null
 }
 
 const FlightDataInput: React.FC<IFlightDataInputProps> = (props) => {
 
   const flightData = useAppSelector(state => state.flightData);
-
   const [tempFltData, setTempFltData] = useState<IFlightData>({ ...flightData });
+
+  const onDismiss = () => dismiss();
+
+  const getTrajectoryModal = () => {
+    return (
+    <Provider store={store}>
+      <ModifyTrajectoryForm onDismiss={onDismiss} trajectory="desired"/>
+    </Provider>)
+  };
+  
+  const [present, dismiss] = useIonModal(getTrajectoryModal());
+
+  const onTrajectoryActionButtonClicked = () => present();
+
+  const savedTrajectories = useAppSelector((state: RootState) => state.defaultTrajectories)
 
   return (
     <div className="flightDataInputContent">
@@ -51,9 +80,18 @@ const FlightDataInput: React.FC<IFlightDataInputProps> = (props) => {
               <IonLabel position="stacked">
                 GUFI
               </IonLabel>
-              <IonInput placeholder="Not assigned" disabled={!props.gufiEnabled}>
+              <IonInput 
+                value={flightData.gufi}
+                placeholder="Not assigned" disabled={!props.gufiEnabled}
+                >
               </IonInput>
             </IonItem>
+          </IonCol>
+          <IonCol>
+            {props.assignGufiButtonEnabled ? (
+              <IonButton expand="block" onClick={() => { props.onGufiButtonClicked!() }}>
+                Assign GUFI
+              </IonButton>) : null}
           </IonCol>
           <IonItemDivider />
         </IonRow>
@@ -67,16 +105,20 @@ const FlightDataInput: React.FC<IFlightDataInputProps> = (props) => {
                   </IonLabel>
                   <IonInput
                     onIonChange={(e) => setTempFltData({ ...tempFltData, originator: e.detail.value! })}
-                    disabled={!props.originatorEnabled}>
+                    disabled={!props.originatorEnabled}
+                    value={tempFltData.originator}
+                  >
                   </IonInput>
                 </IonItem>
               </IonCol>
               <IonCol>
                 <IonItem>
                   <IonLabel position="stacked">Operator</IonLabel>
-                  <IonInput 
+                  <IonInput
                     onIonChange={(e) => setTempFltData({ ...tempFltData, operator: e.detail.value! })}
-                    disabled={!props.operatorEnabled}>{flightData.operator}</IonInput>
+                    disabled={!props.operatorEnabled}
+                    value={tempFltData.operator}
+                  ></IonInput>
                 </IonItem>
               </IonCol>
             </IonRow>
@@ -84,19 +126,23 @@ const FlightDataInput: React.FC<IFlightDataInputProps> = (props) => {
               <IonCol>
                 <IonItem>
                   <IonLabel position="stacked">Departure</IonLabel>
-                  <IonInput 
-                  onIonChange={(e) => setTempFltData({ ...tempFltData, departure: e.detail.value! })}
-                  disabled={!props.departureEnabled}
-                    placeholder="EDVE">{flightData.departure}</IonInput>
+                  <IonInput
+                    onIonChange={(e) => setTempFltData({ ...tempFltData, departure: e.detail.value! })}
+                    disabled={!props.departureEnabled}
+                    placeholder="EDVE"
+                    value={tempFltData.departure}
+                  ></IonInput>
                 </IonItem>
               </IonCol>
               <IonCol>
                 <IonItem>
                   <IonLabel position="stacked">Destination</IonLabel>
-                  <IonInput 
-                  onIonChange={(e) => setTempFltData({ ...tempFltData, destination: e.detail.value! })}
-                  disabled={!props.destinationEnabled}
-                    placeholder="EDVE">{flightData.destination}</IonInput>
+                  <IonInput
+                    onIonChange={(e) => setTempFltData({ ...tempFltData, destination: e.detail.value! })}
+                    disabled={!props.destinationEnabled}
+                    value={tempFltData.destination}
+                    placeholder="EDVE"
+                  ></IonInput>
                 </IonItem>
               </IonCol>
               <IonItemDivider />
@@ -108,52 +154,60 @@ const FlightDataInput: React.FC<IFlightDataInputProps> = (props) => {
               <IonCol>
                 <IonItem>
                   <IonLabel position="stacked">Est. Departure Date</IonLabel>
-                  <IonInput placeholder="dd.mm.yyyy"></IonInput>
+                  <IonInput
+                    onIonChange={(e) => setTempFltData({ ...tempFltData, estimatedOffBlockTime: e.detail.value! })}
+                    disabled={!props.departureDateEnabled}
+                    placeholder="dd.mm.yyyy - HH:mm:ss"
+                    value={tempFltData.estimatedOffBlockTime}
+                  ></IonInput>
                 </IonItem>
               </IonCol>
               <IonCol>
                 <IonItem>
                   <IonLabel position="stacked">Est. Arrival Date</IonLabel>
-                  <IonInput placeholder="dd.mm.yyyy"></IonInput>
-                </IonItem>
-              </IonCol>
-            </IonRow>
-            <IonRow>
-              <IonCol>
-                <IonItem>
-                  <IonLabel position="stacked">Est. Departure Block Time (UTC)</IonLabel>
-                  <IonInput placeholder="HH:mm"></IonInput>
-                </IonItem>
-              </IonCol>
-              <IonCol>
-                <IonItem>
-                  <IonLabel position="stacked">Est. Arrival Block Time (UTC)</IonLabel>
-                  <IonInput placeholder="HH:mm"></IonInput>
+                  <IonInput
+                    onIonChange={(e) => setTempFltData({ ...tempFltData, estimatedArrivalBlockTime: e.detail.value! })}
+                    disabled={!props.arrivalDateEnabled}
+                    placeholder="dd.mm.yyyy - HH:mm:ss"
+                    value={tempFltData.estimatedArrivalBlockTime}
+                  ></IonInput>
                 </IonItem>
               </IonCol>
             </IonRow>
             {
-              !props.trajectoryVisible ? null : (
+              props.trajectoryVisible ? (
                 <IonGrid>
                   <IonRow>
                     <IonText><h4>4D Trajectories</h4></IonText>
                   </IonRow>
                   <IonRow>
                     <IonCol>
-                      {/* <TrajectoryView trajectory={}></TrajectoryView> */}
+                      <TrajectoryView
+                        denomination="Desired"
+                        trajectory={{
+                          label: flightData.routeTrajectoryGroup.desired.label!,
+                          waypoints: flightData.routeTrajectoryGroup.desired.routeTrajectoryElements,
+                          edited: false
+                        }}
+                        actionButtonText="Change"
+                        actionButtonEnabled={props.desiredTrajectoryEditable}
+                        onActionButtonClicked={onTrajectoryActionButtonClicked}
+                        />
                     </IonCol>
                     <IonCol>
-                      {/* <TrajectoryCard trajectoryProps={{ trajectory: "agreed" }} /> */}
-                    </IonCol>
-                    <IonCol>
-                      {/* <TrajectoryCard trajectoryProps={{ trajectory: "negotiating" }} /> */}
-                    </IonCol>
-                    <IonCol>
-                      {/* <TrajectoryCard trajectoryProps={{ trajectory: "ranked" }} /> */}
+                      <TrajectoryView
+                        denomination="Agreed"
+                        actionButtonEnabled={props.agreedTrajectoryEditable}
+                        trajectory={{
+                          label: flightData.routeTrajectoryGroup.agreed.label!,
+                          waypoints: flightData.routeTrajectoryGroup.agreed.routeTrajectoryElements,
+                          edited: false
+                        }}
+                      />
                     </IonCol>
                   </IonRow>
                 </IonGrid>
-              )
+              ) : null
             }
             {!props.trajectoryVisible ? null : <IonItemDivider />}
           </IonGrid>

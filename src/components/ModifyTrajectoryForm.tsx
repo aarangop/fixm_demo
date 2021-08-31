@@ -2,21 +2,18 @@ import { IonButton, IonButtons, IonCol, IonContent, IonFab, IonFabButton, IonFoo
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { RootState } from "../app/store";
 import { useEffect, useState } from "react";
-import { addOutline, saveOutline } from "ionicons/icons";
-import { addNew4DWaypoint, ITrajectoryPoint4D } from "../features/flightData";
 import "./ModifyTrajectoryForm.scss"
-import { getNewWaypoint } from "../features/flightData";
 import TrajectoryView from "./TrajectoryView";
-import { ISavedTrajectory } from "../features/defaultTrajectories";
+import { ISavedTrajectories, ISavedTrajectory, setSelectedTrajectory } from "../features/defaultTrajectories";
+import { saveOutline } from "ionicons/icons";
+import { setDesiredTrajectory } from "../features/flightData";
 
-const initialState = [] as Array<ITrajectoryPoint4D>;
-
-const ModifyTrajectoryForm: React.FC<{ trajectory: string }> = ({ trajectory }) => {
+const ModifyTrajectoryForm: React.FC<{ trajectory: string, onDismiss?: () => void }> = (props) => {
 
   const tr = useAppSelector((state: RootState) => {
-    if (trajectory in state.flightData.routeTrajectoryGroup) {
+    if (props.trajectory in state.flightData.routeTrajectoryGroup) {
       return state.flightData.routeTrajectoryGroup[
-        trajectory as keyof typeof state.flightData.routeTrajectoryGroup
+        props.trajectory as keyof typeof state.flightData.routeTrajectoryGroup
       ];
     }
   });
@@ -28,11 +25,20 @@ const ModifyTrajectoryForm: React.FC<{ trajectory: string }> = ({ trajectory }) 
   );
 
   const onTrajectorySelected = (trajectory: ISavedTrajectory) => {
-    
+    setTempSavedTrajectories({ ...tempSavedTrajectories, selected_trajectory: trajectory });
   }
 
-  const [trajectoryElements, setTrajectoryElements] = useState<Array<ITrajectoryPoint4D>>(initialState);
+  const onSave = () => {
+    dispatch(setDesiredTrajectory({
+      label: tempSavedTrajectories.selected_trajectory.label,
+      routeTrajectoryElements: tempSavedTrajectories.selected_trajectory.waypoints
+    }));
+    dispatch(setSelectedTrajectory(tempSavedTrajectories.selected_trajectory));
+    props.onDismiss!();
+  }
+
   const [savedTrajectories] = useState<typeof availableTrajectories>(availableTrajectories);
+  const [tempSavedTrajectories, setTempSavedTrajectories] = useState<ISavedTrajectories>(savedTrajectories);
 
   return (
     <div className="contentContainer">
@@ -41,23 +47,32 @@ const ModifyTrajectoryForm: React.FC<{ trajectory: string }> = ({ trajectory }) 
           <IonCol>
             <TrajectoryView
               denomination="Selected Trajectory"
-              selectable={false}
-              trajectory={savedTrajectories.selected_trajectory} />
+              actionButtonEnabled={false}
+              trajectory={tempSavedTrajectories.selected_trajectory}
+              highlight={true}
+            />
           </IonCol>
         </IonRow>
-        <IonRow>
-          {savedTrajectories.alternative_trajectories.map((t, i) =>
-            <IonCol>
-              <TrajectoryView key={`trajectory_${i}`}
-                selectable={true} 
-                trajectory={t}
-                denomination="Alternative Trajectory"
-                mapHeight={100}
-              />
-            </IonCol>
-          )}
-        </IonRow>
+        {/* <IonRow> */}
+        {savedTrajectories.alternative_trajectories.map((t, i) =>
+          <IonCol key={`trajectory_${i}`}>
+            <TrajectoryView
+              actionButtonEnabled={true}
+              trajectory={t}
+              denomination={`Alternative Trajectory ${i + 1}`}
+              mapHeight={200}
+              actionButtonText={"Choose"}
+              onActionButtonClicked={onTrajectorySelected}
+            />
+          </IonCol>
+        )}
+        {/* </IonRow> */}
       </IonGrid>
+      <IonFab vertical="top" horizontal="end">
+        <IonFabButton onClick={onSave}>
+          <IonIcon icon={saveOutline} />
+        </IonFabButton>
+      </IonFab>
     </div>
   );
 };

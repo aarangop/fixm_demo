@@ -13,6 +13,7 @@ export interface ITrajectoryPoint4D {
 }
 
 export interface IRouteTrajectory {
+  label?: string,
   routeTrajectoryElements: Array<ITrajectoryPoint4D>
 }
 
@@ -25,11 +26,13 @@ export interface ITrajectoryGroup {
 
 // Define a type for the slice state
 export interface IFlightData {
+  gufi: string,
   originator: string,
-  submitter: string,
   operator?: string,
   departure?: string,
   destination?: string,
+  estimatedOffBlockTime?: string,
+  estimatedArrivalBlockTime?: string,
   routeTrajectoryGroup: ITrajectoryGroup
 }
 
@@ -55,6 +58,7 @@ export const getNewWaypoint = (): ITrajectoryPoint4D => {
 
 // Define the initial state using that type
 const initialState = {
+  gufi: "",
   originator: "",
   submitter: "",
   routeTrajectoryGroup: {
@@ -69,7 +73,9 @@ const initialState = {
     },
     "negotiating": {
       routeTrajectoryElements: []
-    }
+    },
+    estimatedOffBlockTime: "01.01.2022 - 08:00:00",
+    estimatedArrivalBlockTime: "01.01.2022 - 10:00:00",
   }
 } as IFlightData;
 
@@ -77,12 +83,16 @@ export const flightDataSlice = createSlice({
   name: 'flightData',
   initialState,
   reducers: {
+    setGufi: ((state, action: PayloadAction<string>) => {
+      state.gufi = action.payload;
+    }),
     setOriginator: (state, action: PayloadAction<string>) => {
       state.originator = action.payload;
     },
-    setSubmitter: (state, action: PayloadAction<string>) => {
-      state.submitter = action.payload;
-    },
+    setBasicFltData: ((state, action: PayloadAction<IFlightData>) => ({
+        ...action.payload,
+        routeTrajectoryGroup: state.routeTrajectoryGroup
+    })),
     addNew4DWaypoint: (state, action: PayloadAction<string>) => {
       if (action.payload in state.routeTrajectoryGroup) {
         state.routeTrajectoryGroup[action.payload as keyof typeof state.routeTrajectoryGroup]
@@ -106,23 +116,31 @@ export const flightDataSlice = createSlice({
       const payload = action.payload;
       state.routeTrajectoryGroup[payload.trajectoryCollection as keyof typeof state.routeTrajectoryGroup]
         .routeTrajectoryElements[payload.sequence].level = payload.value;
-    }
+    },
+    setDesiredTrajectory: ((state, action: PayloadAction<IRouteTrajectory>) => {
+      state.routeTrajectoryGroup.desired = action.payload;
+    }),
+    setAgreedTrajectory: ((state, action: PayloadAction<IRouteTrajectory>) => {
+      state.routeTrajectoryGroup.agreed = action.payload;
+    })
   },
 })
 
 export const {
   setOriginator,
-  setSubmitter,
   addDesiredWaypoint,
   addNew4DWaypoint,
   setWaypointAltimeterSetting,
-  setWaypointLevel
+  setWaypointLevel,
+  setBasicFltData,
+  setDesiredTrajectory,
+  setAgreedTrajectory,
+  setGufi
 } = flightDataSlice.actions;
 
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectOriginator = (state: RootState) => state.flightData.originator;
-export const selectSubmitter = (state: RootState) => state.flightData.submitter;
 export const selectFlightData = (state: RootState) => state.flightData;
 
 export default flightDataSlice.reducer

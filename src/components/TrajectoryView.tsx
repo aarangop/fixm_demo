@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonIcon, IonItem, IonLabel, IonList, IonRow, IonToolbar } from "@ionic/react";
+import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonIcon, IonItem, IonLabel, IonList, IonRow, IonText, IonToolbar } from "@ionic/react";
 import { ISavedTrajectory } from "../features/defaultTrajectories";
 import "./TrajectoryView.scss"
 import "../theme/fonts.scss"
@@ -11,11 +11,15 @@ import { ITrajectoryPoint4D } from "../features/flightData";
 import { pin } from "ionicons/icons";
 
 interface ITrajectoryViewProps {
-  trajectory: ISavedTrajectory,
-  selectable?: boolean,
+  trajectory?: ISavedTrajectory,
+  actionButtonEnabled?: boolean,
   denomination?: string,
   mapHeight?: number,
-  onTrajectorySelected?: (trajectory: ISavedTrajectory) => void;
+  actionButtonText?: string,
+  highlight?: boolean,
+  sequence?: number,
+  showSequence?: boolean,
+  onActionButtonClicked?: (trajectory: ISavedTrajectory) => void
 }
 
 const defaultProps: ITrajectoryViewProps = {
@@ -25,20 +29,22 @@ const defaultProps: ITrajectoryViewProps = {
     waypoints: []
   },
   mapHeight: 300,
-  selectable: false,
+  actionButtonEnabled: false,
   denomination: "alternative",
-  onTrajectorySelected: () => null
+  actionButtonText: "Select",
+  highlight: false,
+  onActionButtonClicked: () => null
 }
 
 const TrajectoryView: React.FC<ITrajectoryViewProps> = (props) => {
 
   const defaultCoords = {
-    lat: props.trajectory.waypoints[0].position.latitude,
-    lng: props.trajectory.waypoints[0].position.longitude
+    lat: props.trajectory?.waypoints.length !== 0 ? props.trajectory?.waypoints[0].position.latitude : 52.316374,
+    lng: props.trajectory?.waypoints.length !== 0 ? props.trajectory?.waypoints[0].position.longitude : 10.558577
   } as Coords;
 
   const getCenterCoordinates = (): Coords => {
-    const coord = props.trajectory.waypoints[0].position;
+    const coord = props.trajectory!.waypoints[0].position;
     return {
       lat: coord.latitude,
       lng: coord.longitude
@@ -46,14 +52,14 @@ const TrajectoryView: React.FC<ITrajectoryViewProps> = (props) => {
   }
 
   const getGoogleMapsWaypoints = () => {
-    return props.trajectory.waypoints.map((wp) => ({
+    return props.trajectory!.waypoints.map((wp) => ({
       lat: wp.position.latitude,
       lng: wp.position.longitude
     }))
   }
 
-  const onSelectAsPreferred = () => 
-    props.onTrajectorySelected? props.onTrajectorySelected(props.trajectory) : null;
+  const onTrajectoryActionButtonClicked = () =>
+    props.onActionButtonClicked ? props.onActionButtonClicked(props.trajectory!) : null;
 
   const getInfoWindowContent = (waypoint: ITrajectoryPoint4D) => {
     return `<div>
@@ -72,48 +78,51 @@ const TrajectoryView: React.FC<ITrajectoryViewProps> = (props) => {
         <IonCardSubtitle>
           {props.denomination}
         </IonCardSubtitle>
-        <IonCardTitle>
-          {props.trajectory.label}
+        <IonCardTitle color={props.highlight ? "secondary" : ""}>
+          {props.trajectory!.label}
         </IonCardTitle>
       </IonCardHeader>
       <IonCardContent>
-        <div style={{ height: `${props.mapHeight}px`, width: "100%" }}>
-          <GoogleMapReact
-            bootstrapURLKeys={{ key: gmApiKey.key }}
-            defaultCenter={getCenterCoordinates()}
-            defaultZoom={8}
-            onGoogleApiLoaded={({ map }) => {
-              const flightPath = new google.maps.Polyline({
-                path: getGoogleMapsWaypoints(),
-                geodesic: true,
-                strokeColor: "#eb445a"
-              });
-              flightPath.setMap(map);
-              props.trajectory.waypoints.forEach((tr, i) => {
-                const marker = new google.maps.Marker({
-                  map,
-                  position: {
-                    lat: tr.position.latitude,
-                    lng: tr.position.longitude
-                  },
-                  label: `WP ${i}`,
-                  title: `${tr.position.latitude}/${tr.position.longitude}`
-                });
-                const infoWindow = new google.maps.InfoWindow();
-                marker.addListener("click", () => {
-                  infoWindow.close();
-                  infoWindow.setContent(getInfoWindowContent(tr));
-                  infoWindow.open(marker.getMap(), marker);
-                });
-              })
-            }}
-          >
-          </GoogleMapReact>
-        </div>
-        {props.selectable ? (
+        {
+          props.trajectory?.waypoints.length === 0 ? <IonText>Empty</IonText> :
+            <div style={{ height: `${props.mapHeight}px`, width: "100%" }}>
+              <GoogleMapReact
+                bootstrapURLKeys={{ key: gmApiKey.key }}
+                defaultCenter={getCenterCoordinates()}
+                defaultZoom={8}
+                onGoogleApiLoaded={({ map }) => {
+                  const flightPath = new google.maps.Polyline({
+                    path: getGoogleMapsWaypoints(),
+                    geodesic: true,
+                    strokeColor: "#eb445a"
+                  });
+                  flightPath.setMap(map);
+                  props.trajectory!.waypoints.forEach((tr, i) => {
+                    const marker = new google.maps.Marker({
+                      map,
+                      position: {
+                        lat: tr.position.latitude,
+                        lng: tr.position.longitude
+                      },
+                      label: `WP ${i}`,
+                      title: `${tr.position.latitude}/${tr.position.longitude}`
+                    });
+                    const infoWindow = new google.maps.InfoWindow();
+                    marker.addListener("click", () => {
+                      infoWindow.close();
+                      infoWindow.setContent(getInfoWindowContent(tr));
+                      infoWindow.open(marker.getMap(), marker);
+                    });
+                  })
+                }}
+              >
+              </GoogleMapReact>
+            </div>
+        }
+        {props.actionButtonEnabled ? (
           <IonToolbar>
             <IonButtons>
-              <IonButton onClick={onSelectAsPreferred}>Select as Preferred</IonButton>
+              <IonButton onClick={onTrajectoryActionButtonClicked}>{props.actionButtonText}</IonButton>
             </IonButtons>
           </IonToolbar>
         ) : null}

@@ -34,7 +34,7 @@ const App: React.FC = () => (
               <AUContent/>
             </Route>
             <Route exact path="/ASP">
-              <ASPContent onPreviousPhase={() => null} onNextPhase={() => null}/>
+              <ASPContent/>
             </Route>
             <Redirect exact from="/" to="/AU"/>
           </IonRouterOutlet>

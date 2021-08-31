@@ -21,7 +21,6 @@ const TrajectoryCard: React.FC<{ trajectoryProps: ITrajectoryCardProps }> = ({ t
     trajectory: trajectoryProps.trajectory
   });
 
-  
   const openModifyTrajectoryModal = () => {present()};
 
   return (

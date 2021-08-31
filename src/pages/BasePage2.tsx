@@ -12,7 +12,17 @@ const BasePage2: React.FC<{ onNextPhase: Function, onPreviousPhase: Function }> 
   const planningPhase = useAppSelector(state => selectPlanningPhase(state));
 
   return (
-    <IonPage className="mainContent">
+    <IonPage>
+      <IonFab horizontal="start" vertical="bottom">
+        <IonFabButton onClick={() => onPreviousPhase()}>
+          <IonIcon icon={arrowBack}></IonIcon>
+        </IonFabButton>
+      </IonFab>
+      <IonFab horizontal="end" vertical="bottom">
+        <IonFabButton onClick={() => onNextPhase()}>
+          <IonIcon icon={arrowForward}></IonIcon>
+        </IonFabButton>
+      </IonFab>
       <IonHeader>
         <IonToolbar>
           <IonTitle>FIXM Demo</IonTitle>
@@ -25,10 +35,10 @@ const BasePage2: React.FC<{ onNextPhase: Function, onPreviousPhase: Function }> 
         <IonGrid>
           <IonRow>
             <IonCol size="10">
-              <IonText>Flight Plan Data</IonText>
+              <IonText><h1>Flight Plan Data</h1></IonText>
             </IonCol>
             <IonCol>
-              <IonText>FIXM JSON</IonText>
+              <IonText><h1>FIXM JSON</h1></IonText>
             </IonCol>
           </IonRow>
           <IonRow>
@@ -41,16 +51,6 @@ const BasePage2: React.FC<{ onNextPhase: Function, onPreviousPhase: Function }> 
           </IonRow>
         </IonGrid>
       </IonContent>
-      <IonFab horizontal="start" vertical="bottom">
-        <IonFabButton onClick={() => onPreviousPhase()}>
-          <IonIcon icon={arrowBack}></IonIcon>
-        </IonFabButton>
-      </IonFab>
-      <IonFab horizontal="end" vertical="bottom">
-        <IonFabButton onClick={() => onNextPhase()}>
-          <IonIcon icon={arrowForward}></IonIcon>
-        </IonFabButton>
-      </IonFab>
     </IonPage>
   );
 };

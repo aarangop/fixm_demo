@@ -56,6 +56,10 @@ const FlightDataInput: React.FC<IFlightDataInputProps> = (props) => {
   const flightData = useAppSelector(state => state.flightData);
   const [tempFltData, setTempFltData] = useState<IFlightData>({ ...flightData });
 
+  useEffect(() => {
+    setTempFltData({...flightData})
+  }, [flightData])
+
   const onDismiss = () => dismiss();
 
   const getTrajectoryModal = () => {

@@ -1,6 +1,5 @@
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { RootState } from "../../app/store";
-import { setSelectedTrajectory } from "../../features/defaultTrajectories";
 import { IFlightData, setAgreedTrajectory, setGufi } from "../../features/flightData";
 import FlightDataInput from "../FlightDataInput";
 
@@ -9,8 +8,6 @@ const ASPStrategic: React.FC = () => {
 
   const operator = useAppSelector((state: RootState) => state.flightData.operator);
   const dispatch = useAppDispatch();
-
-  const savedTrajectories = useAppSelector((state: RootState) => state.defaultTrajectories)
 
   const onTrajectoryAccepted = (trajectory: IFlightData) => {
     dispatch(setAgreedTrajectory(trajectory.routeTrajectoryGroup.desired))

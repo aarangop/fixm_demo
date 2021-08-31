@@ -4,12 +4,14 @@ import { selectFlightPhase, selectPlanningPhase } from "../features/flightplanPr
 import { arrowBack, arrowForward } from "ionicons/icons";
 import "./BasePage.scss";
 import FixmFlightData from "../components/FixmCode";
+import { RootState } from "../app/store";
 
 const BasePage2: React.FC<{ onNextPhase: Function, onPreviousPhase: Function }> = ({ children, onNextPhase, onPreviousPhase }) => {
 
 
   const flightPhase = useAppSelector(state => selectFlightPhase(state));
   const planningPhase = useAppSelector(state => selectPlanningPhase(state));
+  const trajectories = useAppSelector((state: RootState) => state.flightData.routeTrajectoryGroup);
 
   return (
     <IonPage>

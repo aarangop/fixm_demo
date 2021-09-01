@@ -12,7 +12,6 @@ const BasePage2: React.FC<{ onNextPhase: Function, onPreviousPhase: Function }> 
 
   const flightPhase = useAppSelector(state => selectFlightPhase(state));
   const planningPhase = useAppSelector(state => selectPlanningPhase(state));
-  const trajectories = useAppSelector((state: RootState) => state.flightData.routeTrajectoryGroup);
 
   const [isFixmDataVisible, setIsFixmVisible] = useState<boolean>(true);
 

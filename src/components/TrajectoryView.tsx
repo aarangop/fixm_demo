@@ -87,6 +87,7 @@ const TrajectoryView: React.FC<ITrajectoryViewProps> = (props) => {
           props.trajectory?.waypoints.length === 0 ? <IonText>Empty</IonText> :
             <div style={{ height: `${props.mapHeight}px`, width: "100%" }}>
               <GoogleMapReact
+              yesIWantToUseGoogleMapApiInternals={true}
                 bootstrapURLKeys={{ key: gmApiKey.key }}
                 defaultCenter={getCenterCoordinates()}
                 defaultZoom={8}

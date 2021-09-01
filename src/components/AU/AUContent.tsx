@@ -22,7 +22,6 @@ const AUContent : React.FC = () => {
     }
 
     const getAUContent = () => {
-        console.log("Current phase", planningPhase)
         // return a component based on current planning phase.
         switch(planningPhase){
             case 0:

@@ -84,6 +84,7 @@ export const flightDataSlice = createSlice({
   reducers: {
     setGufi: ((state, action: PayloadAction<string>) => {
       state.gufi = action.payload;
+      console.log("GUFI assigned: ", state.gufi);
     }),
     setOriginator: (state, action: PayloadAction<string>) => {
       state.originator = action.payload;
@@ -118,9 +119,13 @@ export const flightDataSlice = createSlice({
     },
     setDesiredTrajectory: ((state, action: PayloadAction<IRouteTrajectory>) => {
       state.routeTrajectoryGroup.desired = action.payload;
+      console.log("Desired trajectory changed:");
+      console.log(state.routeTrajectoryGroup.desired)
     }),
     setAgreedTrajectory: ((state, action: PayloadAction<IRouteTrajectory>) => {
       state.routeTrajectoryGroup.agreed = action.payload;
+      console.log("Agreed trajectory changed:");
+      console.log(state.routeTrajectoryGroup.agreed);
     })
   },
 })

@@ -6,16 +6,14 @@ interface IFlightPlanProcess {
     flightPhaseIndex: number
 };
 
-const planningPhases = [
+export const planningPhases = [
     "Strategic",
     "Pre-Tactical",
-    "Tactical"
 ]
 
 const flightPhases = [
     "Pre-flight",
     "In-flight",
-    "En-route"
 ]
 
 /**
@@ -42,7 +40,6 @@ export const flightplanProcessSlice = createSlice({
     initialState,
     reducers: {
         nextPlanningPhase: (state) => {
-            console.log("Going to next planning phase! -- reducer!");
             if (state.planningPhaseIndex < planningPhases.length - 1)
                 state.planningPhaseIndex += 1;
         },

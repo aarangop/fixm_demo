@@ -1,0 +1,336 @@
+{
+  "selected_trajectory": {
+    "label": "My Preferred Trajectory",
+    "edited": false,
+    "waypoints": [
+      {
+        "altimerterSetting": 1013.25,
+        "level": 0,
+        "position": {
+          "latitude": 53.432254,
+          "longitude": 11.802477
+        },
+        "predictedAirspeed": 25,
+        "predictedGroundspeed": 25,
+        "absoluteTime": "03.04.2022 - 09:00:00"
+      },
+      {
+        "altimerterSetting": 1013.25,
+        "level": 100,
+        "position": {
+          "latitude": 53.544259,
+          "longitude": 12.176124
+        },
+        "predictedAirspeed": 30,
+        "predictedGroundspeed": 40,
+        "absoluteTime": "03.04.2022 - 11:17:00"
+      },
+      {
+        "altimerterSetting": 1013.25,
+        "level": 680,
+        "position": {
+          "latitude": 53.544259,
+          "longitude": 12.176124
+        },
+        "predictedAirspeed": 30,
+        "predictedGroundspeed": 40,
+        "absoluteTime": "03.04.2022 - 18:00:00"
+      },
+      {
+        "altimerterSetting": 1013.25,
+        "level": 680,
+        "position": {
+          "latitude": 54.075876,
+          "longitude": 12.064002
+        },
+        "predictedAirspeed": 50,
+        "predictedGroundspeed": 40,
+        "absoluteTime": "03.04.2022 - 20:00:00"
+      },
+      {
+        "altimerterSetting": 1013.25,
+        "level": 680,
+        "position": {
+          "latitude": 53.800507,
+          "longitude": 12.013482
+        },
+        "predictedAirspeed": 50,
+        "predictedGroundspeed": 40,
+        "absoluteTime": "03.04.2022 - 20:00:00"
+      },
+      {
+        "altimerterSetting": 1013.25,
+        "level": 5000,
+        "position": {
+          "latitude": 53.398111,
+          "longitude": 11.652294
+        },
+        "predictedAirspeed": 25,
+        "predictedGroundspeed": 25,
+        "absoluteTime": "05.04.2022 - 13:00:00"
+      },
+      {
+        "altimerterSetting": 1013.25,
+        "level": 0,
+        "position": {
+          "latitude": 53.421789,
+          "longitude": 11.764287
+        },
+        "predictedAirspeed": 0,
+        "predictedGroundspeed": 0,
+        "absoluteTime": "05.04.2022 - 09:00:00"
+      }
+    ]
+  },  
+  "alternative_trajectories": [
+    {
+      "label": "Alternative 1",
+      "edited": false,
+      "waypoints": [
+        {
+          "altimerterSetting": 1013.25,
+          "level": 0,
+          "position": {
+            "latitude": 53.432254,
+            "longitude": 11.802477
+          },
+          "predictedAirspeed": 25,
+          "predictedGroundspeed": 25,
+          "absoluteTime": "03.04.2022 - 10:00:00"
+        },
+        {
+          "altimerterSetting": 1013.25,
+          "level": 100,
+          "position": {
+            "latitude": 53.544259,
+            "longitude": 12.176124
+          },
+          "predictedAirspeed": 30,
+          "predictedGroundspeed": 40,
+          "absoluteTime": "03.04.2022 - 11:17:00"
+        },
+        {
+          "altimerterSetting": 1013.25,
+          "level": 680,
+          "position": {
+            "latitude": 53.544259,
+            "longitude": 12.176124
+          },
+          "predictedAirspeed": 30,
+          "predictedGroundspeed": 40,
+          "absoluteTime": "03.04.2022 - 18:00:00"
+        },
+        {
+          "altimerterSetting": 1013.25,
+          "level": 680,
+          "position": {
+            "latitude": 54.075876,
+            "longitude": 12.064002
+          },
+          "predictedAirspeed": 50,
+          "predictedGroundspeed": 40,
+          "absoluteTime": "03.04.2022 - 20:00:00"
+        },
+        {
+          "altimerterSetting": 1013.25,
+          "level": 680,
+          "position": {
+            "latitude": 53.800507,
+            "longitude": 12.013482
+          },
+          "predictedAirspeed": 50,
+          "predictedGroundspeed": 40,
+          "absoluteTime": "03.04.2022 - 20:00:00"
+        },
+        {
+          "altimerterSetting": 1013.25,
+          "level": 5000,
+          "position": {
+            "latitude": 53.398111,
+            "longitude": 11.652294
+          },
+          "predictedAirspeed": 25,
+          "predictedGroundspeed": 25,
+          "absoluteTime": "05.04.2022 - 13:00:00"
+        },
+        {
+          "altimerterSetting": 1013.25,
+          "level": 0,
+          "position": {
+            "latitude": 53.421789,
+            "longitude": 11.764287
+          },
+          "predictedAirspeed": 0,
+          "predictedGroundspeed": 0,
+          "absoluteTime": "05.04.2022 - 09:00:00"
+        }
+      ]
+    },
+    {
+      "label": "Alternative 2",
+      "edited": false,
+      "waypoints": [
+        {
+          "altimerterSetting": 1013.25,
+          "level": 0,
+          "position": {
+            "latitude": 53.432254,
+            "longitude": 11.802477
+          },
+          "predictedAirspeed": 25,
+          "predictedGroundspeed": 25,
+          "absoluteTime": "03.04.2022 - 09:00:00"
+        },
+        {
+          "altimerterSetting": 1013.25,
+          "level": 100,
+          "position": {
+            "latitude": 53.542259,
+            "longitude": 12.196124
+          },
+          "predictedAirspeed": 30,
+          "predictedGroundspeed": 40,
+          "absoluteTime": "03.04.2022 - 11:17:00"
+        },
+        {
+          "altimerterSetting": 1013.25,
+          "level": 680,
+          "position": {
+            "latitude": 53.544259,
+            "longitude": 12.186124
+          },
+          "predictedAirspeed": 30,
+          "predictedGroundspeed": 40,
+          "absoluteTime": "03.04.2022 - 18:00:00"
+        },
+        {
+          "altimerterSetting": 1013.25,
+          "level": 680,
+          "position": {
+            "latitude": 54.075876,
+            "longitude": 12.064002
+          },
+          "predictedAirspeed": 50,
+          "predictedGroundspeed": 40,
+          "absoluteTime": "03.04.2022 - 20:00:00"
+        },
+        {
+          "altimerterSetting": 1013.25,
+          "level": 680,
+          "position": {
+            "latitude": 53.800507,
+            "longitude": 11.013482
+          },
+          "predictedAirspeed": 50,
+          "predictedGroundspeed": 40,
+          "absoluteTime": "03.04.2022 - 20:00:00"
+        },
+        {
+          "altimerterSetting": 1013.25,
+          "level": 5000,
+          "position": {
+            "latitude": 53.398111,
+            "longitude": 11.652294
+          },
+          "predictedAirspeed": 25,
+          "predictedGroundspeed": 25,
+          "absoluteTime": "05.04.2022 - 13:00:00"
+        },
+        {
+          "altimerterSetting": 1013.25,
+          "level": 0,
+          "position": {
+            "latitude": 53.421789,
+            "longitude": 11.764287
+          },
+          "predictedAirspeed": 0,
+          "predictedGroundspeed": 0,
+          "absoluteTime": "05.04.2022 - 09:00:00"
+        }
+      ]
+    },
+    {
+      "label": "My Preferred Trajectory",
+      "edited": false,
+      "waypoints": [
+        {
+          "altimerterSetting": 1013.25,
+          "level": 0,
+          "position": {
+            "latitude": 53.432254,
+            "longitude": 11.802477
+          },
+          "predictedAirspeed": 25,
+          "predictedGroundspeed": 25,
+          "absoluteTime": "03.04.2022 - 09:00:00"
+        },
+        {
+          "altimerterSetting": 1013.25,
+          "level": 100,
+          "position": {
+            "latitude": 53.544259,
+            "longitude": 12.176124
+          },
+          "predictedAirspeed": 30,
+          "predictedGroundspeed": 40,
+          "absoluteTime": "03.04.2022 - 11:17:00"
+        },
+        {
+          "altimerterSetting": 1013.25,
+          "level": 680,
+          "position": {
+            "latitude": 53.544259,
+            "longitude": 12.176124
+          },
+          "predictedAirspeed": 30,
+          "predictedGroundspeed": 40,
+          "absoluteTime": "03.04.2022 - 18:00:00"
+        },
+        {
+          "altimerterSetting": 1013.25,
+          "level": 680,
+          "position": {
+            "latitude": 54.075876,
+            "longitude": 12.064002
+          },
+          "predictedAirspeed": 50,
+          "predictedGroundspeed": 40,
+          "absoluteTime": "03.04.2022 - 20:00:00"
+        },
+        {
+          "altimerterSetting": 1013.25,
+          "level": 680,
+          "position": {
+            "latitude": 53.800507,
+            "longitude": 12.013482
+          },
+          "predictedAirspeed": 50,
+          "predictedGroundspeed": 40,
+          "absoluteTime": "03.04.2022 - 20:00:00"
+        },
+        {
+          "altimerterSetting": 1013.25,
+          "level": 5000,
+          "position": {
+            "latitude": 53.398111,
+            "longitude": 11.652294
+          },
+          "predictedAirspeed": 25,
+          "predictedGroundspeed": 25,
+          "absoluteTime": "05.04.2022 - 13:00:00"
+        },
+        {
+          "altimerterSetting": 1013.25,
+          "level": 0,
+          "position": {
+            "latitude": 53.421789,
+            "longitude": 11.764287
+          },
+          "predictedAirspeed": 0,
+          "predictedGroundspeed": 0,
+          "absoluteTime": "05.04.2022 - 09:00:00"
+        }
+      ]
+    }
+  ]
+}

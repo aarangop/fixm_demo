@@ -1,14 +1,14 @@
 import React from "react";
 import { useAppDispatch } from "../../app/hooks";
 import { IFlightData, setDesiredTrajectory } from "../../features/flightData";
-import FlightDataInput, { IFlightDataInputProps } from "../FlightDataInput";
+import FlightDataInput from "../FlightDataInput";
 
 const AUPreTactic: React.FC = () => {
 
   const dispatch = useAppDispatch();
-  const submitTrajectory = (fltData: IFlightData) => 
-    dispatch(setDesiredTrajectory({...fltData.routeTrajectoryGroup.desired})
-  );
+  const submitTrajectory = (fltData: IFlightData) =>
+    dispatch(setDesiredTrajectory({ ...fltData.routeTrajectoryGroup.desired })
+    );
 
   return (
     <FlightDataInput

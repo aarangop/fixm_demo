@@ -2,12 +2,11 @@ import React from "react";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { nextPlanningPhase, previousPlanningPhase } from "../../features/flightplanProcess";
 import BasePage2 from "../../pages/BasePage2";
-import BasePage3 from "../../pages/BasePage3";
 import ASPPreTactic from "./ASPPreTactic";
 import ASPStrategic from "./ASPStrategic";
 
-const ASPContent : React.FC = () => {
-    
+const ASPContent: React.FC = () => {
+
     const planningPhase = useAppSelector(state => state.flightplanProcess.planningPhaseIndex);
     const dispatch = useAppDispatch();
 
@@ -21,19 +20,19 @@ const ASPContent : React.FC = () => {
 
     const getAUContent = () => {
         // return a component based on current planning phase.
-        switch(planningPhase){
+        switch (planningPhase) {
             case 0:
-                return <ASPStrategic/>;
+                return <ASPStrategic />;
             case 1:
-                return <ASPPreTactic/>
+                return <ASPPreTactic />
             case 2:
-                return <div/>
+                return <div />
         };
     };
-    
-    return(
-        <BasePage2 
-            onPreviousPhase={() => onPreviousPhase()} 
+
+    return (
+        <BasePage2
+            onPreviousPhase={() => onPreviousPhase()}
             onNextPhase={() => onNextPhase()}
         >
             {getAUContent()}

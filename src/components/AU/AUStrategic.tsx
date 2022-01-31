@@ -1,7 +1,6 @@
-import { IonCol, IonContent, IonGrid, IonInput, IonItem, IonItemDivider, IonLabel, IonRow, IonText } from "@ionic/react"
 import React from "react"
 import { useAppDispatch } from "../../app/hooks";
-import { IFlightData, setAgreedTrajectory, setBasicFltData, setOriginator } from "../../features/flightData";
+import { IFlightData, setBasicFltData } from "../../features/flightData";
 import FlightDataInput, { IFlightDataInputProps } from "../FlightDataInput";
 
 const flightDataInputProps: IFlightDataInputProps = {
@@ -18,12 +17,13 @@ const flightDataInputProps: IFlightDataInputProps = {
   arrivalDateEnabled: true,
   desiredTrajectoryEditable: true
 }
+
 const AUStrategic: React.FC = () => {
 
   const dispatch = useAppDispatch();
 
   const onSubmit = (tempFltData: IFlightData) => {
-    dispatch(setBasicFltData({...tempFltData}));
+    dispatch(setBasicFltData({ ...tempFltData }));
     console.log("%c Flight plan submitted", 'background: #69bb7b; color: #005a00');
   }
 

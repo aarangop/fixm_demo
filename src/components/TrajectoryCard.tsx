@@ -1,4 +1,4 @@
-import { IonBadge, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonChip, IonIcon, IonLabel, IonText, IonToolbar, useIonModal } from "@ionic/react";
+import { IonBadge, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonIcon, IonText, IonToolbar, useIonModal } from "@ionic/react";
 import { pencilOutline } from "ionicons/icons";
 import { Provider } from "react-redux";
 import store from "../app/store";
@@ -9,19 +9,19 @@ interface ITrajectoryCardProps {
 };
 
 const TrajectoryCard: React.FC<{ trajectoryProps: ITrajectoryCardProps }> = ({ trajectoryProps }) => {
-  
+
   const getTrajectoryModal = () => {
     return (
-    <Provider store={store}>
-      <ModifyTrajectoryForm trajectory={trajectoryProps.trajectory}/>
-    </Provider>)
+      <Provider store={store}>
+        <ModifyTrajectoryForm trajectory={trajectoryProps.trajectory} />
+      </Provider>)
   };
-  
+
   const [present, dismiss] = useIonModal(getTrajectoryModal(), {
     trajectory: trajectoryProps.trajectory
   });
 
-  const openModifyTrajectoryModal = () => {present()};
+  const openModifyTrajectoryModal = () => { present() };
 
   return (
     <IonCard>

@@ -1,7 +1,6 @@
-import { IonButton, IonCol, IonFab, IonFabButton, IonIcon, IonInput, IonItem, IonLabel, IonRow } from "@ionic/react";
+import { IonButton, IonCol, IonIcon, IonInput, IonItem, IonLabel, IonRow } from "@ionic/react";
 import { ITrajectoryPoint4D } from "../features/flightData";
 import { pencilOutline, trashOutline, saveOutline } from "ionicons/icons";
-import { boolean } from "yargs";
 import { useState } from "react";
 
 const Trajectory4DPoint: React.FC<{ trajectoryElement: ITrajectoryPoint4D }> = (trajectoryElement) => {

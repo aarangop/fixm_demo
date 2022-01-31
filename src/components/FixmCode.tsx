@@ -1,9 +1,7 @@
 import { IonContent } from "@ionic/react";
 import React from "react";
-import ReactMarkdown from "react-markdown";
-import { useAppSelector, useAppDispatch } from "../app/hooks";
+import { useAppSelector } from "../app/hooks";
 import { RootState } from "../app/store";
-import { selectFlightData } from "../features/flightData";
 
 const FixmFlightData: React.FC = () => {
 

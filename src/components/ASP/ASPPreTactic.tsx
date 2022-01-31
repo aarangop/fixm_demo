@@ -1,6 +1,5 @@
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { RootState } from "../../app/store";
-import { setSelectedTrajectory } from "../../features/defaultTrajectories";
 import { IFlightData, setAgreedTrajectory, setGufi } from "../../features/flightData";
 import FlightDataInput from "../FlightDataInput";
 

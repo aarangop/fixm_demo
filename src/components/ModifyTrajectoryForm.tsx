@@ -1,7 +1,7 @@
-import { IonButton, IonButtons, IonCol, IonContent, IonFab, IonFabButton, IonFooter, IonGrid, IonHeader, IonIcon, IonItem, IonItemDivider, IonLabel, IonList, IonRow, IonTitle, IonToolbar } from "@ionic/react";
+import { IonCol, IonFab, IonFabButton, IonGrid, IonIcon, IonRow } from "@ionic/react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { RootState } from "../app/store";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./ModifyTrajectoryForm.scss"
 import TrajectoryView from "./TrajectoryView";
 import { ISavedTrajectories, ISavedTrajectory, setSelectedTrajectory } from "../features/defaultTrajectories";

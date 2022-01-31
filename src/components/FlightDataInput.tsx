@@ -2,8 +2,7 @@ import { IonGrid, IonRow, IonCol, IonItem, IonLabel, IonInput, IonItemDivider, I
 import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import { useAppSelector } from "../app/hooks";
-import store, { RootState } from "../app/store";
-import { ISavedTrajectory } from "../features/defaultTrajectories";
+import store from "../app/store";
 import { IFlightData } from "../features/flightData";
 import "./FlightDataInput.scss"
 import ModifyTrajectoryForm from "./ModifyTrajectoryForm";
@@ -57,18 +56,18 @@ const FlightDataInput: React.FC<IFlightDataInputProps> = (props) => {
   const [tempFltData, setTempFltData] = useState<IFlightData>({ ...flightData });
 
   useEffect(() => {
-    setTempFltData({...flightData})
+    setTempFltData({ ...flightData })
   }, [flightData])
 
   const onDismiss = () => dismiss();
 
   const getTrajectoryModal = () => {
     return (
-    <Provider store={store}>
-      <ModifyTrajectoryForm onDismiss={onDismiss} trajectory="desired"/>
-    </Provider>)
+      <Provider store={store}>
+        <ModifyTrajectoryForm onDismiss={onDismiss} trajectory="desired" />
+      </Provider>)
   };
-  
+
   const [present, dismiss] = useIonModal(getTrajectoryModal());
 
   const onTrajectoryActionButtonClicked = () => present();
@@ -82,10 +81,10 @@ const FlightDataInput: React.FC<IFlightDataInputProps> = (props) => {
               <IonLabel position="stacked">
                 GUFI
               </IonLabel>
-              <IonInput 
+              <IonInput
                 value={flightData.gufi}
                 placeholder="Not assigned" disabled={!props.gufiEnabled}
-                >
+              >
               </IonInput>
             </IonItem>
           </IonCol>
@@ -119,7 +118,7 @@ const FlightDataInput: React.FC<IFlightDataInputProps> = (props) => {
                   <IonInput
                     onIonChange={(e) => setTempFltData({ ...tempFltData, operator: e.detail.value! })}
                     disabled={!props.operatorEnabled}
-                    value={props.operatorEnabled? tempFltData.operator : flightData.operator}
+                    value={props.operatorEnabled ? tempFltData.operator : flightData.operator}
                   ></IonInput>
                 </IonItem>
               </IonCol>
@@ -132,7 +131,7 @@ const FlightDataInput: React.FC<IFlightDataInputProps> = (props) => {
                     onIonChange={(e) => setTempFltData({ ...tempFltData, departure: e.detail.value! })}
                     disabled={!props.departureEnabled}
                     placeholder="EDVE"
-                    value={ props.departureDateEnabled ? tempFltData.departure : flightData.departure}
+                    value={props.departureDateEnabled ? tempFltData.departure : flightData.departure}
                   ></IonInput>
                 </IonItem>
               </IonCol>
@@ -160,7 +159,7 @@ const FlightDataInput: React.FC<IFlightDataInputProps> = (props) => {
                     onIonChange={(e) => setTempFltData({ ...tempFltData, estimatedOffBlockTime: e.detail.value! })}
                     disabled={!props.departureDateEnabled}
                     placeholder="dd.mm.yyyy - HH:mm:ss"
-                    value={ props.departureDateEnabled ? tempFltData.estimatedOffBlockTime : flightData.estimatedOffBlockTime}
+                    value={props.departureDateEnabled ? tempFltData.estimatedOffBlockTime : flightData.estimatedOffBlockTime}
                   ></IonInput>
                 </IonItem>
               </IonCol>
@@ -171,7 +170,7 @@ const FlightDataInput: React.FC<IFlightDataInputProps> = (props) => {
                     onIonChange={(e) => setTempFltData({ ...tempFltData, estimatedArrivalBlockTime: e.detail.value! })}
                     disabled={!props.arrivalDateEnabled}
                     placeholder="dd.mm.yyyy - HH:mm:ss"
-                    value={ props.arrivalDateEnabled ? tempFltData.estimatedArrivalBlockTime : flightData.estimatedArrivalBlockTime}
+                    value={props.arrivalDateEnabled ? tempFltData.estimatedArrivalBlockTime : flightData.estimatedArrivalBlockTime}
                   ></IonInput>
                 </IonItem>
               </IonCol>
@@ -194,7 +193,7 @@ const FlightDataInput: React.FC<IFlightDataInputProps> = (props) => {
                         actionButtonText="Change"
                         actionButtonEnabled={props.desiredTrajectoryEditable}
                         onActionButtonClicked={onTrajectoryActionButtonClicked}
-                        />
+                      />
                     </IonCol>
                     <IonCol>
                       <TrajectoryView

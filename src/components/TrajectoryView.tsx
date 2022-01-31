@@ -1,14 +1,10 @@
-import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonIcon, IonItem, IonLabel, IonList, IonRow, IonText, IonToolbar } from "@ionic/react";
+import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonText, IonToolbar } from "@ionic/react";
 import { ISavedTrajectory } from "../features/defaultTrajectories";
 import "./TrajectoryView.scss"
 import "../theme/fonts.scss"
-import { pencilOutline } from "ionicons/icons";
 import GoogleMapReact, { Coords } from "google-map-react"
 import gmApiKey from "../data/gmaps_api_key.json"
-import { useState } from "react";
-import googleMapReact from "google-map-react";
 import { ITrajectoryPoint4D } from "../features/flightData";
-import { pin } from "ionicons/icons";
 
 interface ITrajectoryViewProps {
   trajectory?: ISavedTrajectory,
@@ -87,7 +83,7 @@ const TrajectoryView: React.FC<ITrajectoryViewProps> = (props) => {
           props.trajectory?.waypoints.length === 0 ? <IonText>Empty</IonText> :
             <div style={{ height: `${props.mapHeight}px`, width: "100%" }}>
               <GoogleMapReact
-              yesIWantToUseGoogleMapApiInternals={true}
+                yesIWantToUseGoogleMapApiInternals={true}
                 bootstrapURLKeys={{ key: gmApiKey.key }}
                 defaultCenter={getCenterCoordinates()}
                 defaultZoom={8}
